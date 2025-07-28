@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        PASSPHRASE: abcs
+    ports:
+      - "8123:8000"
+    working_dir: /app
+    command: ["pyconcrete","main.pye"]
