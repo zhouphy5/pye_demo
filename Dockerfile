@@ -15,7 +15,7 @@ RUN --mount=type=bind,source=requirements.txt,target=requirements.txt \
 WORKDIR /app
 COPY ./src /app
 
-ARG PASSPHRASE
+ARG PASSPHRASE=abcd
 
 RUN set -ex \
     && pip install pyconcrete \
@@ -26,3 +26,6 @@ RUN set -ex \
         --pye \
         --remove-py \
         --remove-pyc
+
+EXPOSE 8000
+CMD ["pyconcrete","main.pye"]
