@@ -11,17 +11,15 @@ RUN set -ex \
         pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-RUN --mount=type=bind,source=requirements.txt,target=requirements.txt \
-    pip install -r requirements.txt
+RUN pip install -r requirements.txt --no-cache-dir
 
 WORKDIR /app
 COPY ./src /app
 
 RUN set -ex \
-    && cd /app/ \
-    && pip install pyconcrete\
-      --no-cache-dir \
-      --config-settings=setup-args=-Dpassphrase=bacd \
+    && pip install pyconcrete \
+        --no-cache-dir \
+        --config-settings=setup-args=-Dpassphrase=${PASSPHRASE} \
     && pyecli compile \
         --source=/app \
         --pye \
