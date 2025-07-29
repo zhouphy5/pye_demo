@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.11-slim-bookworm
 RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
 RUN sed -i s:/deb.debian.org:/mirrors.tuna.tsinghua.edu.cn:g /etc/apt/sources.list.d/*
 
@@ -13,9 +13,9 @@ RUN --mount=type=bind,source=requirements.txt,target=requirements.txt \
     pip install -r requirements.txt --no-cache-dir
 
 WORKDIR /app
-COPY ./src /app
+COPY src /app
 
-ARG PASSPHRASE=abcd
+ARG PASSPHRASE=kWl1aEs6MyEaqe55
 
 RUN set -ex \
     && pip install pyconcrete \

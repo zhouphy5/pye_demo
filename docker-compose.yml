@@ -1,10 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-      args:
-        PASSPHRASE: abcs
+    build: .
     ports:
       - "8123:8000"
     working_dir: /app
