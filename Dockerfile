@@ -8,23 +8,29 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     && apt-get update && apt-get install -y --no-install-recommends \
     pkg-config build-essential
 
-RUN --mount=type=bind,source=requirements.txt,target=requirements.txt \
-    --mount=type=cache,target=/root/.cache/pip \
-    pip install -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install uv
 
 WORKDIR /app
-COPY src /app
 
+RUN --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-install-project --no-dev
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+COPY src /app/src
 ARG PASSPHRASE=kWl1aEs6MyEaqe55
-
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install pyconcrete \
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv pip install pyconcrete \
         --config-settings=setup-args=-Dpassphrase=${PASSPHRASE} \
     && pyecli compile \
-        --source=/app \
+        --source=/app/src \
         --pye \
         --remove-py \
         --remove-pyc
 
+WORKDIR /app/src
 EXPOSE 8000
 CMD ["pyconcrete","main.pye"]

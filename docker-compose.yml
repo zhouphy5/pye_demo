@@ -3,5 +3,7 @@ services:
     build: .
     ports:
       - "8123:8000"
-    working_dir: /app
+    environment:
+      - PATH=/app/.venv/bin:$PATH
+    working_dir: /app/src
     command: ["pyconcrete","main.pye"]
