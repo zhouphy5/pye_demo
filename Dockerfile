@@ -12,7 +12,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install uv
 
 WORKDIR /app
-
+ENV UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple
 RUN --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=cache,target=/root/.cache/uv \
