@@ -16,7 +16,7 @@ ENV UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple
 RUN --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked --no-install-project --no-dev
+    uv sync --frozen --no-install-project --no-dev
 
 ENV PATH="/app/.venv/bin:$PATH"
 
